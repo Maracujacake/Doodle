@@ -15,19 +15,18 @@ public class Doodle {
     }
 
     // checa o tamanho da palavra
-    public int checagemTamanho() {
-        System.out.println("Qual o tamanho da palavra?");
-        int tamanho = console.nextInt();
+    public int checagemTamanho(int tamanho) {
+        //int tamanho = console.nextInt();
         return tamanho;
     }
 
     // chama todas as funções e faz as operações com todas as palavras do words.txt
-    public String[] palavras() {
+    public String[] palavras(int tam) {
         ArrayList<String> respostasFinais = new ArrayList<>();
         ArrayList<Character> letrasIncorretas = new ArrayList<>(); // armazena as letras que não podem ter
         HashMap<Character, Integer> letrasCorretas = new HashMap<>(); // armazena as letras que DEVEM ter
         ArrayList<String> palavrasCorretas = new ArrayList<>(); // armazena todas as palavras para comparação
-        int tamanho = checagemTamanho();
+        int tamanho = tam;
         reader(palavrasCorretas, tamanho);
         leituraLetrasCorretas(letrasCorretas); // le todas as letras que o usuario passar e sua posição
         leituraLetrasIncorretas(letrasIncorretas); // le todas as letras que o usuario passar
