@@ -5,14 +5,32 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+
 public class Doodle {
     
-    private Scanner console;
+    private JTextArea outputArea;
+    private JFrame frame;
 
     // construtor
-    public Doodle() {
-        this.console = new Scanner(System.in);
+    public Doodle(JFrame frame, JTextArea outputArea) {
+        this.frame = frame;
+        this.outputArea = outputArea;
     }
+
+    // print na tela da aplicação
+    private void printOutput(String message){
+        outputArea.append(message + "\n");
+    }
+
+    // pega o input do usuário ao invés de utilizar o scanner para o console
+    private String getInputUsuario(String message){
+        return JOptionPane.showInputDialog(frame, message);
+    }
+
+
 
     // checa o tamanho da palavra
     public int checagemTamanho(int tamanho) {
@@ -26,8 +44,7 @@ public class Doodle {
         ArrayList<Character> letrasIncorretas = new ArrayList<>(); // armazena as letras que não podem ter
         HashMap<Character, Integer> letrasCorretas = new HashMap<>(); // armazena as letras que DEVEM ter
         ArrayList<String> palavrasCorretas = new ArrayList<>(); // armazena todas as palavras para comparação
-        int tamanho = tam;
-        reader(palavrasCorretas, tamanho);
+        reader(palavrasCorretas, tam);
         leituraLetrasCorretas(letrasCorretas); // le todas as letras que o usuario passar e sua posição
         leituraLetrasIncorretas(letrasIncorretas); // le todas as letras que o usuario passar
         
@@ -44,18 +61,19 @@ public class Doodle {
 
     // le as letras que devem estar na palavra mas nao sabemos a posicao
     public ArrayList<Character> leituraIncorretasUnknown(ArrayList<Character> x){
-        System.out.println("Quantas letras sabemos que estão na palavra mas não sabemos a posição?");
-        int qtdeLetras = console.nextInt();
+        String input = getInputUsuario("Quantas letras sabemos que estão na palavra mas não sabemos a posição?");
+        int qtdeLetras = Integer.parseInt(input);
 
         for (int i = 0; i < qtdeLetras; i++) {
-            System.out.println("Digite a letra numero " + (i + 1));
-            char charAtual = console.next().charAt(0);
+            String charInput = getInputUsuario("Digite a letra numero " + (i + 1));
+            char charAtual = charInput.charAt(0);
             x.add(charAtual);
         }
 
         return x;
     }
 
+    // após todas as funções, verifica se deve adicionar a palavra ou não no resultado final com base nas letras que DEVEM estar
     // verifica quais palavras possuem as letras necessarias para serem consideradas
     public ArrayList<String> AUXleituraLetrasCorretasUNKNOWN(ArrayList<String> x, ArrayList<Character> caracteres){
         ArrayList<String> resultado = new ArrayList<>();
@@ -79,26 +97,26 @@ public class Doodle {
 
     // lê quais letras DEVEM estar na palavra e SE SABE A POSIÇÃO
     public void leituraLetrasCorretas(HashMap<Character, Integer> x) {
-        System.out.println("Quantas letras sabemos que DEVEM estar na palavra?");
-        int qtdeLetras = console.nextInt();
+        String input = getInputUsuario("Quantas letras sabemos que DEVEM estar na palavra?");
+        int qtdeLetras = Integer.parseInt(input);
 
         for (int i = 0; i < qtdeLetras; i++) {
-            System.out.println("Digite a letra numero " + (i + 1));
-            char charAtual = console.next().charAt(0);
-            System.out.println("Em que posição ela DEVE estar? Começando de 0");
-            int posicaoProibida = console.nextInt();
+            String charInput = getInputUsuario("Digite a letra numero " + (i + 1));
+            char charAtual = charInput.charAt(0);
+            String posicaoInput = getInputUsuario("Em que posição ela DEVE estar? Começando de 0");
+            int posicaoProibida = Integer.parseInt(posicaoInput);
             x.put(charAtual, posicaoProibida);
         }
     }
 
     // lê quais letras NÃO devem estar na palavra
     public void leituraLetrasIncorretas(ArrayList<Character> x) {
-        System.out.println("Quantas letras sabemos que não estão na palavra?");
-        int qtdeLetras = console.nextInt();
+        String input = getInputUsuario("Quantas letras sabemos que não estão na palavra?");
+        int qtdeLetras = Integer.parseInt(input);
 
         for (int i = 0; i < qtdeLetras; i++) {
-            System.out.println("Digite a letra numero " + (i + 1));
-            x.add(console.next().charAt(0));
+            String inputAtual = getInputUsuario("Digite a letra numero " + (i + 1));
+            x.add(inputAtual.charAt(0));
         }
     }
 

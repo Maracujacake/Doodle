@@ -10,11 +10,10 @@ public class DoodleGUI {
     private int tam;
 
     public DoodleGUI() {
-        this.doodle = new Doodle();
         this.tam = 0;
     }
 
-    public void createFrame(TamanhoCallback callback){
+    public void createFrame(){
         // criação da tela
         JFrame tela = new JFrame("Doodle");
         tela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -24,20 +23,38 @@ public class DoodleGUI {
         JPanel painel = new JPanel();
         painel.setLayout(new BorderLayout());
 
-        JLabel labelTamanho = new JLabel("");
-        painel.add(labelTamanho, BorderLayout.NORTH);
-        JButton botao = new JButton("Qual o tamanho da palavra?");
-        painel.add(botao, BorderLayout.SOUTH);
-        
-        
-        botao.addActionListener(new ActionListener() {
+        JLabel label = new JLabel("Qual o tamanho da palavra?");
+        painel.add(label, BorderLayout.NORTH);
+
+        JButton button = new JButton("Inserir Tamanho");
+        painel.add(button, BorderLayout.CENTER);
+
+        JTextArea resultArea = new JTextArea();
+        resultArea.setEditable(false);
+        painel.add(new JScrollPane(resultArea), BorderLayout.NORTH);
+
+        doodle = new Doodle(tela, resultArea);
+        button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String inpute = JOptionPane.showInputDialog(tela, "Qual o tamanho da palavra?");
-                int tamanho= Integer.parseInt(inpute);
-                tam = tamanho;
-                int resultado = doodle.checagemTamanho(tamanho);
-                labelTamanho.setText("tamanho da palavra:" + resultado);
-                callback.onTamanhoInserido(resultado);
+                String input = JOptionPane.showInputDialog(tela, "Qual o tamanho da palavra?");
+                if (input != null && !input.isEmpty()) {
+                    try {
+                        int tamanho = Integer.parseInt(input);
+                        int resultado = doodle.checagemTamanho(tamanho);
+                        label.setText("Tamanho da palavra: " + resultado);
+                        
+                        // Aqui está a lógica adicional que você quer executar
+                        String[] respostas = doodle.palavras(tamanho);
+                        StringBuilder resultadoTexto = new StringBuilder();
+                        for (String resposta : respostas) {
+                            resultadoTexto.append(resposta).append("\n");
+                        }
+                        resultArea.setText(resultadoTexto.toString());
+                    } 
+                    catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(tela, "Por favor, insira um número válido.", "Erro", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
             }
         });
 
@@ -49,9 +66,10 @@ public class DoodleGUI {
     public int getTamanho(){
         return tam;
     }
-
+    /* 
     public interface TamanhoCallback {
         void onTamanhoInserido(int tamanho);
     }
+    */
 }
 
