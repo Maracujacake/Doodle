@@ -7,5 +7,11 @@ Creio que diferentes linguagens podem ser aceitas modificando o idioma das palav
 
 ![image](https://github.com/Maracujacake/Doodle_/assets/74564883/4e5cc9f8-c11a-4efd-b94f-fd6ebfff0329)
 
+![image](https://github.com/Maracujacake/Doodle_/assets/74564883/98cd0830-eb79-4b73-8386-0342d0f8f4fc)
+
+
+
+
+
 Para a criação da interface gráfica, foi utilizado o <a href="https://docs.oracle.com/javase/7/docs/api/javax/swing/package-summary.html">Java Swing</a>
 
