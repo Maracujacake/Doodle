@@ -1,4 +1,8 @@
 import javax.swing.*;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,14 +27,35 @@ public class DoodleGUI {
         JPanel painel = new JPanel();
         painel.setLayout(new BorderLayout());
 
-        JLabel label = new JLabel("Qual o tamanho da palavra?");
+        JLabel label = new JLabel("");
         painel.add(label, BorderLayout.NORTH);
 
-        JButton button = new JButton("Inserir Tamanho");
+        JButton button = new JButton("Clique aqui para iniciar");
+        button.setFont(new Font("Arial", Font.PLAIN, 18));
+        button.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+        button.setBackground(Color.BLACK);
+        button.setForeground(new Color(0, 255, 34));
         painel.add(button, BorderLayout.CENTER);
-
-        JTextArea resultArea = new JTextArea();
+        /* 
+        JTextArea resultArea = new JTextArea("Suas possíveis respostas serão mostradas aqui.");
         resultArea.setEditable(false);
+        resultArea.setPreferredSize(new Dimension(250, 75));
+        painel.add(new JScrollPane(resultArea), BorderLayout.NORTH);
+        */
+
+        JTextPane resultArea = new JTextPane();
+        resultArea.setEditable(false);
+        resultArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
+        resultArea.setBackground(Color.BLACK);
+        resultArea.setForeground(Color.WHITE);
+        
+        // Centralizando o texto inicial
+        StyledDocument doc = resultArea.getStyledDocument();
+        SimpleAttributeSet center = new SimpleAttributeSet();
+        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+        doc.setParagraphAttributes(0, doc.getLength(), center, false);
+        resultArea.setText("Suas possíveis respostas serão mostradas aqui.");
+        resultArea.setPreferredSize(new Dimension(75, 75));
         painel.add(new JScrollPane(resultArea), BorderLayout.NORTH);
 
         doodle = new Doodle(tela, resultArea);

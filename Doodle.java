@@ -8,22 +8,31 @@ import java.util.Scanner;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextPane;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.StyledDocument;
 
 public class Doodle {
     
-    private JTextArea outputArea;
+    private JTextPane outputArea;
     private JFrame frame;
 
     // construtor
-    public Doodle(JFrame frame, JTextArea outputArea) {
+    public Doodle(JFrame frame, JTextPane outputArea) {
         this.frame = frame;
         this.outputArea = outputArea;
     }
-
+    
     // print na tela da aplicação
-    private void printOutput(String message){
-        outputArea.append(message + "\n");
+   private void printOutput(String message) {
+        StyledDocument doc = outputArea.getStyledDocument();
+        try {
+            doc.insertString(doc.getLength(), message + "\n", null);
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
     }
+    
 
     // pega o input do usuário ao invés de utilizar o scanner para o console
     private String getInputUsuario(String message){
